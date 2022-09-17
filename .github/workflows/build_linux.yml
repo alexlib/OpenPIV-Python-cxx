@@ -15,7 +15,7 @@ concurrency:
 jobs:
   test_linux:
     name: Linux Build tests
-    if: "github.repository == 'ErichZimmer/OpenPIV-Python-cxx' || github.repository == ''"
+    if: "github.repository == 'alexlib/OpenPIV-Python-cxx' || github.repository == ''"
     runs-on: ubuntu-18.04
     steps:
       - name: Set up Python
