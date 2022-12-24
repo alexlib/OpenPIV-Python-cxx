@@ -11,6 +11,7 @@ std::string get_execution_type(int execution_type)
         return "bulk-pool";
 }
 
+
 core::gf_image convert_image(
     py::array_t<double, py::array::c_style | py::array::forcecast>& np_img
 ){
@@ -28,6 +29,7 @@ core::gf_image convert_image(
     return img;
 }
 
+
 void placeIntoPadded(
     const core::gf_image& image,
     core::gf_image& intWindow,
@@ -35,7 +37,7 @@ void placeIntoPadded(
     int y2,
     int x1,
     int x2,
-    double meanI = 0
+    double meanI = 0.0
 ){
     const std::size_t padY = intWindow.height() / 2 - (y2 - y1) / 2;
     const std::size_t padX = intWindow.width()  / 2 - (x2 - x1) / 2;
@@ -63,8 +65,7 @@ double meanI(
     std::size_t x1,
     std::size_t x2
 ){
-    double sum = 0;
-    double mean = 0, std_ = 0;
+    double sum, std_ = 0.0;
     
     std::size_t deltaY = (y2 - y1), deltaX = (x2 - x1);
     std::size_t N_M = deltaY * deltaX;
@@ -77,7 +78,7 @@ double meanI(
             sum += img[row * img_stride + col];
     }
 
-    return sum / N_M;
+    return sum / static_cast<double>(N_M);
 }
 
 
@@ -88,8 +89,8 @@ std::vector<double> mean_std(
     std::size_t x1,
     std::size_t x2
 ){
-    double img_sum = 0, img_std_temp = 0;
-    double img_mean = 0, img_std = 0;
+    double img_sum, img_std_temp = 0.0;
+    double img_mean, img_std = 0.0;
     
     std::size_t deltaY = (y2 - y1), deltaX = (x2 - x1);
     std::size_t N_M = deltaY * deltaX;
@@ -104,8 +105,8 @@ std::vector<double> mean_std(
         }
     }
 
-    img_mean = img_sum / N_M;
-    img_std = std::sqrt( (img_std_temp / N_M) + (img_mean*img_mean) - (2*img_mean*img_mean) );
+    img_mean = img_sum / static_cast<double>(N_M);
+    img_std = std::sqrt( (img_std_temp / static_cast<double>(N_M)) + (img_mean*img_mean) - (2*img_mean*img_mean) );
 
     std::vector<double> stat_out(2);
     stat_out[0] = img_mean; 

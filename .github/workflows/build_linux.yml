@@ -1,9 +1,12 @@
 name: Linux
 
 on:
+  workflow_dispatch:
+
   push:
     branches:
       - main
+
   pull_request:
     branches:
       - main
@@ -15,7 +18,7 @@ concurrency:
 jobs:
   test_linux:
     name: Linux Build tests
-    if: "github.repository == 'alexlib/OpenPIV-Python-cxx' || github.repository == ''"
+    if: "github.repository == 'ErichZimmer/OpenPIV-Python-cxx' || github.repository == ''"
     runs-on: ubuntu-latest
     steps:
       - name: Set up Python
